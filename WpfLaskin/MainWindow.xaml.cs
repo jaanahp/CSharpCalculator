@@ -19,23 +19,20 @@ namespace WpfLaskin
 {
     public partial class MainWindow : Window
     {
-
-        //Toteuta laskin wpf-sovelluksena
-        //ikkunassa painikkeet 1 - 9 ja =, sekä tuloksen näyttö
-        //laskee yhteen 2 lukua(arvoltaan 1-9)
-        //(optional: myös - *ja / )
-        //Käyttö: paina numeroa(tulee näyttöön), paina toista numeroa(tulee näyttöön) paina =, tulos näyttöön
-        //Optional, lisätty - * ja /, käyttö toteutettu seuraavasti mukaillen yllä annettua: paina ensimmäistä numeroa (tulee näyttöön),
-        //paina toista numeroa (tulee näyttöön), paina haluttua operaattoria (tulee näyttöön), paina "=" ja tulos tulee näyttöön
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        //virheenkäsittely, jos painaa nappeja väärässä järjestyksessä
+        //jos haluaa tehdä laskutoimituksia useammalle numerolle tai useampinumeroisille luvuille
+        //nappien painamisjärjestys
+
         //variables needed in more than one method
         List<double> numbers = new List<double>();
         double result = 0;
-        
+        string opValue = "";
+
         //method for buttons 1-9
         private void numberBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -48,26 +45,36 @@ namespace WpfLaskin
         private void btnOperator_Click(object sender, RoutedEventArgs e)
         {
             Button opBtn = (Button)sender;
-            string opValue = opBtn.Content.ToString();
+            opValue = opBtn.Content.ToString();
             outputBox.Text = opValue;
+        }
+
+
+        private void btnResult_Click(object sender, RoutedEventArgs e)
+        {
+            outputBox.Text = result.ToString();
             if (numbers.Count() == 2)
             {
-                switch(opValue)
+                switch (opValue)
                 {
                     case "+":
                         result = numbers[0] + numbers[1];
+                        outputBox.Text = result.ToString();
                         numbers.Clear();
                         break;
                     case "-":
                         result = numbers[0] - numbers[1];
+                        outputBox.Text = result.ToString();
                         numbers.Clear();
                         break;
                     case "*":
                         result = numbers[0] * numbers[1];
+                        outputBox.Text = result.ToString();
                         numbers.Clear();
                         break;
-                    case"/":
+                    case "/":
                         result = numbers[0] / numbers[1];
+                        outputBox.Text = result.ToString();
                         numbers.Clear();
                         break;
                 }
@@ -77,12 +84,7 @@ namespace WpfLaskin
                 outputBox.Text = "Give only two numbers";
                 numbers.Clear();
             }
-        }
 
-
-        private void btnResult_Click(object sender, RoutedEventArgs e)
-        {
-            outputBox.Text = result.ToString();
         }
     }
 }
